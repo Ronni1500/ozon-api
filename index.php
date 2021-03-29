@@ -5,6 +5,7 @@ require 'SwaggerClient-php/autoload.php';
 use Swagger\Client\Api\WarehouseAPIApi;
 use Swagger\Client\ApiClient;
 use Swagger\Client\Configuration;
+use Swagger\Client\Model\Productv2ImportProductsResponseResult;
 use Swagger\Client\Model\WarehouseWarehouseListRequest;
 use Swagger\Client\Api\ProductAPIApi;
 
@@ -54,12 +55,28 @@ try {
 /**
  * Class OzonSaler
  */
-class OzonSaler{
+class ozonSeller{
 
     /**
      * @var
      */
     private $apiKey;
+
+    /**
+     * @return mixed
+     */
+    public function getApiKey()
+    {
+        return $this->apiKey;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getClientId()
+    {
+        return $this->clientId;
+    }
     /**
      * @var
      */
@@ -84,14 +101,18 @@ class OzonSaler{
         $config = new Configuration();
         $config->addDefaultHeader('Client-Id', $clientId);
         $config->addDefaultHeader('Api-Key', $apiKey);
+        $this->clientId = $clientId;
+        $this->apiKey = $apiKey;
         $config->setHost($this->hostApi);
         $this->apiClient = new ApiClient($config);
     }
 
 
+
+
     /**
      * @param array $data (required)
-     * @return mixed|\Swagger\Client\Model\Productv2ImportProductsResponseResult
+     * @return mixed|Productv2ImportProductsResponseResult
      */
     public function productImport(array $data = [])
     {
@@ -104,19 +125,39 @@ class OzonSaler{
                 $client['Api-Key'],
                 $body
             );
-            return $response->getResult();
+            $result = $response->getResult();
+            return $result['task_id'];
         } catch (\Swagger\Client\ApiException $e) {
+            return $e->getResponseBody();
+        }
+    }
+
+     public function getInfoProduct(array $data = [])
+    {
+        $product = new ProductAPIApi($this->apiClient);
+        $body = new Swagger\Client\Model\ProductGetImportProductsInfoRequest($data);
+
+        try {
+            $response = $product->productAPIGetProductInfoV2(
+                $this->getClientId(),
+                $this->getApiKey(),
+                $body
+            );
+            $result = $response->getResult();
+            return $result;
+        } catch (\Swagger\Client\ApiException $e) {
+            echo "Exeption <br>";
             return $e->getResponseBody();
         }
     }
 }
 
-$ozonSailer = new OzonSaler('836', '0296d4f2-70a1-4c09-b507-904fd05567b9');
+$ozonSeller = new ozonSeller('836', '0296d4f2-70a1-4c09-b507-904fd05567b9');
 
 $data = [
     "barcode" => "8801643566784",
     "description" => "Red Samsung Galaxy S9 with 512GB",
-    "category_id" => 17030819,
+    "category_id" => 0,
     "name" => "Samsung Galaxy S9",
     "offer_id" => "REDSGS9-512",
     "price" => "79990",
@@ -194,6 +235,15 @@ $data = [
     ]
 ];
 
-print_r($ozonSailer->productImport($data));
+$task_id = $ozonSeller->productImport($data);
+
+$data = [
+    "offer_id"=> "item_6060091",
+  "product_id"=> 7154396,
+  "sku"=> 150583609
+];
+echo "<pre>";
+print_r($ozonSeller->getInfoProduct($data));
+echo "</pre>";
 
 
