@@ -135,10 +135,10 @@ class ozonSeller{
      public function getInfoProduct(array $data = [])
     {
         $product = new ProductAPIApi($this->apiClient);
-        $body = new Swagger\Client\Model\ProductGetImportProductsInfoRequest($data);
+        $body = new Swagger\Client\Model\Productv2GetProductInfoListRequest($data);
 
         try {
-            $response = $product->productAPIGetProductInfoV2(
+            $response = $product->productAPIGetProductInfoListV2(
                 $this->getClientId(),
                 $this->getApiKey(),
                 $body
@@ -238,9 +238,9 @@ $data = [
 $task_id = $ozonSeller->productImport($data);
 
 $data = [
-    "offer_id"=> "item_6060091",
-  "product_id"=> 7154396,
-  "sku"=> 150583609
+    "offer_id"=> 'item_6060091',
+    "product_id"=> 7154396,
+    "sku"=> 150583609
 ];
 echo "<pre>";
 print_r($ozonSeller->getInfoProduct($data));
