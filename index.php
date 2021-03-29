@@ -53,7 +53,7 @@ try {
 
 
 /**
- * Class OzonSaler
+ * Class ozonSeller
  */
 class ozonSeller{
 
@@ -92,7 +92,7 @@ class ozonSeller{
     private $hostApi = 'cb-api.ozonru.me';
 
     /**
-     * OzonSaler constructor.
+     * OzonSeller constructor.
      * @param $clientId (required)
      * @param $apiKey (required)
      */
@@ -121,8 +121,8 @@ class ozonSeller{
         $client = $product->getApiClient()->getConfig()->getDefaultHeaders();
         try {
             $response = $product->productAPIImportProductsV2(
-                $client['Client-Id'],
-                $client['Api-Key'],
+                $this->getClientId(),
+                $this->getApiKey(),
                 $body
             );
             $result = $response->getResult();
@@ -136,21 +136,103 @@ class ozonSeller{
     {
         $product = new ProductAPIApi($this->apiClient);
         $body = new Swagger\Client\Model\Productv2GetProductInfoListRequest($data);
-
         try {
             $response = $product->productAPIGetProductInfoListV2(
                 $this->getClientId(),
                 $this->getApiKey(),
                 $body
             );
-            $result = $response->getResult();
-            return $result;
+            return $response->getResult();
+        } catch (\Swagger\Client\ApiException $e) {
+            echo "Exeption <br>";
+            return $e->getResponseBody();
+        }
+    }
+    public function getInfoListProduct($data)
+    {
+        $product = new ProductAPIApi($this->apiClient);
+        $body = new Swagger\Client\Model\Productv2GetProductInfoListRequest($data);
+        try {
+            $response = $product->productAPIGetProductInfoListV2(
+                $this->getClientId(),
+                $this->getApiKey(),
+                $body
+            );
+            return $response->getResult();
+        } catch (\Swagger\Client\ApiException $e) {
+            echo "Exeption <br>";
+            return $e->getResponseBody();
+        }
+    }
+
+    public function updatePriceProduct($data)
+    {
+        $product = new ProductAPIApi($this->apiClient);
+        $body = new \Swagger\Client\Model\ProductImportProductsPricesRequest($data);
+        try {
+            $response = $product->productAPIImportProductsPrices(
+                $this->getClientId(),
+                $this->getApiKey(),
+                $body
+            );
+            return $response->getResult();
+        } catch (\Swagger\Client\ApiException $e) {
+            echo "Exeption <br>";
+            return $e->getResponseBody();
+        }
+    }
+
+    public function updateStocks($data)
+    {
+        $product = new ProductAPIApi($this->apiClient);
+        $body = new \Swagger\Client\Model\Productv2ProductsStocksRequest($data);
+        try {
+            $response = $product->productAPIProductsStocksV2(
+                $this->getClientId(),
+                $this->getApiKey(),
+                $body
+            );
+            return $response->getResult();
+        } catch (\Swagger\Client\ApiException $e) {
+            echo "Exeption <br>";
+            return $e->getResponseBody();
+        }
+    }
+
+    public function getCategoriesTree()
+    {
+        $product = new Swagger\Client\Api\CategoryAPIApi($this->apiClient);
+        try {
+            $response = $product->categoryAPIGetCategoryTree3(
+                $this->getClientId(),
+                $this->getApiKey()
+            );
+            return $response->getResult();
+        } catch (\Swagger\Client\ApiException $e) {
+            echo "Exeption <br>";
+            return $e->getResponseBody();
+        }
+    }
+
+    public function getCategoryAttr($data)
+    {
+        $product = new Swagger\Client\Api\CategoryAPIApi($this->apiClient);
+        $body = new \Swagger\Client\Model\Categoryv2CategoryAttributeRequest($data);
+        try {
+            $response = $product->categoryAPICategoryAttribute(
+                $this->getClientId(),
+                $this->getApiKey(),
+                $body
+            );
+            return $response->getResult();
         } catch (\Swagger\Client\ApiException $e) {
             echo "Exeption <br>";
             return $e->getResponseBody();
         }
     }
 }
+
+
 
 $ozonSeller = new ozonSeller('836', '0296d4f2-70a1-4c09-b507-904fd05567b9');
 
@@ -166,11 +248,11 @@ $data = [
     "vat" => "0",
     "vendor" => "Samsung",
     "vendor_code" => "SM-G960UZPAXAA",
-    "height" => 77,
-    "depth" => 11,
-    "width" => 120,
+    "height" => 0,
+    "depth" => 0,
+    "width" => 0,
     "dimension_unit" => "mm",
-    "weight" => 120,
+    "weight" => 0,
     "weight_unit" => "g",
     "images" => [
         [
@@ -236,14 +318,62 @@ $data = [
 ];
 
 $task_id = $ozonSeller->productImport($data);
+echo $task_id;
 
-$data = [
-    "offer_id"=> 'item_6060091',
-    "product_id"=> 7154396,
-    "sku"=> 150583609
+$dataInfoProduct = [
+    'offer_id'=> "item_6060091",
+    'product_id'=> 7154396,
+    'sku'=> 150583609
 ];
+$dataPrices['prices'] = [
+    [
+      "product_id" => 120000,
+      "offer_id"=> "PRD-1",
+      "price"=> "79990",
+      "old_price"=> "89990",
+      "premium_price"=> "75555"
+    ],
+    [
+      "product_id"=> 124100,
+      "offer_id"=> "PRD-2",
+      "price"=> "79990",
+      "old_price"=> "89990",
+      "premium_price"=> "75555",
+    ],
+    [
+      "product_id"=> 124201,
+      "offer_id"=> "PRD-3",
+      "price"=> "89990",
+      "old_price"=> "79990",
+      "premium_price"=> "75555",
+    ]
+  ];
+
 echo "<pre>";
-print_r($ozonSeller->getInfoProduct($data));
+//print_r($ozonSeller->updatePriceProduct($dataPrices));
+echo "</pre>";
+
+echo "<pre>";
+//print_r($ozonSeller->getInfoProduct($dataInfoProduct));
+echo "</pre>";
+
+$dataStocks['stocks'] = [
+    [
+        'offer_id' => 'item_6060091',
+        'product_id' => 0,
+        'stock' => 0,
+        'warehouse_id' => 0
+    ]
+];
+
+$dataAttr = [
+    'attribute_type' => 'required',
+    'category_id' => 78731083,
+    'language' => 'RU'
+];
+// 78731083
+echo "<pre>";
+print_r($ozonSeller->getCategoryAttr($dataAttr));
 echo "</pre>";
 
 
