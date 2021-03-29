@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="b8cd484f-4c87-4d7f-ac01-1a9ebf4767bd" name="Default Changelist" comment="">
       <change afterPath="$PROJECT_DIR$/SwaggerClient-php/index-old.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
@@ -52,7 +53,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1617018407443</updated>
-      <workItem from="1617018409030" duration="8182000" />
+      <workItem from="1617018409030" duration="8995000" />
     </task>
     <servers />
   </component>

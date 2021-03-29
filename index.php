@@ -50,7 +50,68 @@ try {
     echo $e->getMessage();
 }
 
-$product = new ProductAPIApi($apiClient);
+
+/**
+ * Class OzonSaler
+ */
+class OzonSaler{
+
+    /**
+     * @var
+     */
+    private $apiKey;
+    /**
+     * @var
+     */
+    private $clientId;
+    /**
+     * @var ApiClient
+     */
+    private $apiClient;
+
+    /**
+     * @var string
+     */
+    private $hostApi = 'cb-api.ozonru.me';
+
+    /**
+     * OzonSaler constructor.
+     * @param $clientId (required)
+     * @param $apiKey (required)
+     */
+    public function __construct($clientId, $apiKey)
+    {
+        $config = new Configuration();
+        $config->addDefaultHeader('Client-Id', $clientId);
+        $config->addDefaultHeader('Api-Key', $apiKey);
+        $config->setHost($this->hostApi);
+        $this->apiClient = new ApiClient($config);
+    }
+
+
+    /**
+     * @param array $data (required)
+     * @return mixed|\Swagger\Client\Model\Productv2ImportProductsResponseResult
+     */
+    public function productImport(array $data = [])
+    {
+        $product = new ProductAPIApi($this->apiClient);
+        $body = new Swagger\Client\Model\Productv2ImportProductsRequest($data);
+        $client = $product->getApiClient()->getConfig()->getDefaultHeaders();
+        try {
+            $response = $product->productAPIImportProductsV2(
+                $client['Client-Id'],
+                $client['Api-Key'],
+                $body
+            );
+            return $response->getResult();
+        } catch (\Swagger\Client\ApiException $e) {
+            return $e->getResponseBody();
+        }
+    }
+}
+
+$ozonSailer = new OzonSaler('836', '0296d4f2-70a1-4c09-b507-904fd05567b9');
 
 $data = [
     "barcode" => "8801643566784",
@@ -132,20 +193,7 @@ $data = [
         ]
     ]
 ];
-$body = new Swagger\Client\Model\Productv2ImportProductsRequest($data);
 
-try {
-    $response = $product->productAPIImportProductsV2(
-        $client['Client-Id'],
-        $client['Api-Key'],
-        $body
-    );
-    echo "<pre>";
-    print_r($response->getResult());
-    echo "</pre>";
-} catch (\Swagger\Client\ApiException $e) {
-    echo "<pre>";
-    print_r($e->getResponseBody());
-    echo "</pre>";
-    echo $e->getMessage();
-}
+print_r($ozonSailer->productImport($data));
+
+
