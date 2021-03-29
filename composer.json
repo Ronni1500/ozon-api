@@ -1,6 +1,0 @@
-{
-    "require": {
-        "guzzlehttp/guzzle": "7.0",
-        "gam6itko/ozon-seller": "^0.5.4"
-    }
-}

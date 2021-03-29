@@ -1,0 +1,10 @@
+# Productv2GetProductAttributesResponseComplexAttribute
+
+## Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**attributes** | [**\Swagger\Client\Model\Productv2GetProductAttributesResponseAttribute[]**](Productv2GetProductAttributesResponseAttribute.md) |  | [optional] 
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+
