@@ -3,13 +3,17 @@
   <component name="ChangeListManager">
     <list default="true" id="b8cd484f-4c87-4d7f-ac01-1a9ebf4767bd" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
+=======
+      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
+>>>>>>> 44e97dc1cff004ad357cd5f50bdafbfdd4173d24
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
+  <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/SwaggerClient-php/composer.json</pharConfigPath>
     <execution />
   </component>
@@ -49,8 +53,16 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1617018407443</updated>
+<<<<<<< HEAD
       <workItem from="1617018409030" duration="11736000" />
       <workItem from="1617102925077" duration="10000" />
+=======
+      <workItem from="1617018409030" duration="11619000" />
+      <workItem from="1617036410241" duration="103000" />
+      <workItem from="1617036837742" duration="10000" />
+      <workItem from="1617036882500" duration="88000" />
+      <workItem from="1617037284298" duration="7726000" />
+>>>>>>> 44e97dc1cff004ad357cd5f50bdafbfdd4173d24
     </task>
     <servers />
   </component>
