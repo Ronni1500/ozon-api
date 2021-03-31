@@ -171,6 +171,10 @@ class ApiClient
             $postData = json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($postData));
         }
 
+        echo "<pre>";
+        print_r($postData);
+        echo "</pre>";
+
         $url = $this->config->getHost() . $resourcePath;
 
         $curl = curl_init();

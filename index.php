@@ -9,33 +9,36 @@ use Swagger\Client\Model\Productv2ImportProductsResponseResult;
 use Swagger\Client\Model\WarehouseWarehouseListRequest;
 use Swagger\Client\Api\ProductAPIApi;
 
-
+$prodConfig = [
+    'Client-Id' => '106040',
+    'Api-Key' => '90ee6f55-619d-410c-949f-4c13b7dae716'
+];
 $config = [
     'Client-Id' => '836',
     'Api-Key' => '0296d4f2-70a1-4c09-b507-904fd05567b9'
 ];
-$data = [
-  'stocks' => [
-      "product_id"=> 120000,
-      "offer_id"=> "PRD-1",
-      "stock"=> 20
-    ],
-    [
-      "product_id" =>  124100,
-      "offer_id" => "PRD-2",
-      "stock" => 20
-    ]
-];
+//$data = [
+//  'stocks' => [
+//      "product_id"=> 120000,
+//      "offer_id"=> "PRD-1",
+//      "stock"=> 20
+//    ],
+//    [
+//      "product_id" =>  124100,
+//      "offer_id" => "PRD-2",
+//      "stock" => 20
+//    ]
+//];
 
-$config = new Configuration();
-
-$config->addDefaultHeader('Client-Id', '836');
-$config->addDefaultHeader('Api-Key', '0296d4f2-70a1-4c09-b507-904fd05567b9');
-$config->setHost('cb-api.ozonru.me');
-
-$apiClient = new ApiClient($config);
-$warehouseAPIApi = new WarehouseAPIApi($apiClient);
-$client = $warehouseAPIApi->getApiClient()->getConfig()->getDefaultHeaders();
+//$config = new Configuration();
+//
+//$config->addDefaultHeader('Client-Id', '836');
+//$config->addDefaultHeader('Api-Key', '0296d4f2-70a1-4c09-b507-904fd05567b9');
+//$config->setHost('cb-api.ozonru.me');
+//
+//$apiClient = new ApiClient($config);
+//$warehouseAPIApi = new WarehouseAPIApi($apiClient);
+//$client = $warehouseAPIApi->getApiClient()->getConfig()->getDefaultHeaders();
 
 
 // Example Work with api
@@ -56,7 +59,8 @@ $client = $warehouseAPIApi->getApiClient()->getConfig()->getDefaultHeaders();
  * Интеграция с ozon
  * Class ozonSeller
  */
-class ozonSeller{
+class ozonSeller
+{
 
     /**
      * @var
@@ -78,6 +82,7 @@ class ozonSeller{
     {
         return $this->clientId;
     }
+
     /**
      * @var
      */
@@ -104,11 +109,9 @@ class ozonSeller{
         $config->addDefaultHeader('Api-Key', $apiKey);
         $this->clientId = $clientId;
         $this->apiKey = $apiKey;
-        $config->setHost($this->hostApi);
+//        $config->setHost($this->hostApi);
         $this->apiClient = new ApiClient($config);
     }
-
-
 
 
     /**
@@ -120,7 +123,7 @@ class ozonSeller{
     {
         $product = new ProductAPIApi($this->apiClient);
         $body = new Swagger\Client\Model\Productv2ImportProductsRequest($data);
-        $client = $product->getApiClient()->getConfig()->getDefaultHeaders();
+
         try {
             $response = $product->productAPIImportProductsV2(
                 $this->getClientId(),
@@ -130,6 +133,7 @@ class ozonSeller{
             $result = $response->getResult();
             return $result['task_id'];
         } catch (\Swagger\Client\ApiException $e) {
+            echo $e->getMessage();
             return $e->getResponseBody();
         }
     }
@@ -264,7 +268,8 @@ class ozonSeller{
     }
 }
 
-class importBitrixOzon{
+class importBitrixOzon
+{
     public function getProduct()
     {
         $result = [
@@ -301,77 +306,135 @@ class importBitrixOzon{
 }
 
 
+$ozonSeller = new ozonSeller($prodConfig['Client-Id'], $prodConfig['Api-Key']);
 
-$ozonSeller = new ozonSeller('836', '0296d4f2-70a1-4c09-b507-904fd05567b9');
-
-$data = [
-    "attributes" => [ // Массив характеристик товара. Да
-        [
-            "id" => 8229,
-            "value" => "4747"
+// task 15023761
+$data['items'] = [
+    0 => [
+        "attributes" => [ // Массив характеристик товара. Да
+            [
+                "complex_id" => 0,
+                "id" => 8229,
+                "values" => [
+                    [
+                        "dictionary_value_id" => 0,
+                        'value' => "115950958"
+                    ]
+                ]
+            ],
+            [
+                "complex_id" => 0,
+                'id' => 85, //Бренд
+                "values" => [
+                    ["dictionary_value_id" => 0,
+                        'value' => 'Теплолюкс']
+                ]
+            ],
+            [
+                "complex_id" => 0,
+                'id' => 4194, // Изображение товара
+                "values" => [
+                    ["dictionary_value_id" => 0,
+                        'value' => 'https://www.teploluxe.ru/upload/iblock/0b2/0b2ebdc35157f950905225554762e31c.png']
+                ]
+            ],
+            [
+                "complex_id" => 0,
+                'id' => 4851, //
+                "values" => [
+                    ["dictionary_value_id" => 0,
+                        'value' => '70']
+                ]
+            ],
+            [
+                "complex_id" => 0,
+                'id' => 6160, // Вид обогревателя
+                "values" => [
+                    ["dictionary_value_id" => 0,
+                        'value' => "2506"]
+                ]
+            ],
+            [
+                "complex_id" => 0,
+                'id' => 10096, // Цвет товара
+                "values" => [
+                    ["dictionary_value_id" => 0,
+                        'value' => "61574"]
+                ]
+            ],
+            [
+                "complex_id" => 0,
+                'id' => 9048, // Название модели
+                "values" => [
+                    ["dictionary_value_id" => 0,
+                        'value' => 'Теплолюкс Carpet 50x80. Электрический коврик для сушки обуви']
+                ]
+            ],
+            [
+                "complex_id" => 0,
+                'id' => 4382, // Размеры, мм
+                "values" => [
+                    ["dictionary_value_id" => 0,
+                        'value' => '50Х80']
+                ]
+            ]
         ],
-    ],
-    'description' => '',
-    "barcode" => "8801643566784",// Штрихкод товара. нет
-    "category_id" => 0, // Идентификатор категории. да
-    "name" => "Модуль управления Neptun Smart+", // Название товара
-    "offer_id" => "REDSGS9-512", // Идентификатор товара в системе продавца. Да
-    "price" => "13900.00", // Цена товара с учетом скидок, Да
-    "vat" => "0", // Ставка НДС для товара Да.
-    "height" => 0, // Высота. Да
-    "depth" => 0, // Глубина упаковки. Да
-    "width" => 0, // Ширина упаковки. Да
-    "dimension_unit" => "mm", // Единица измерения габаритов. Да
-    "weight" => 0, // Вес товара в упаковке. Да.
-    "weight_unit" => "g", // Единицы измерения веса. Да
-    "images" => [ // Картинки одна из них главная
-        [
-            "file_name" => "https://www.teploluxe.ru/upload/iblock/dab/dab3ce52531643a4cb32fdc5189231e6.jpg",
-            "default" => true
-        ],
-        [
-            "file_name" => "https://www.teploluxe.ru/upload/iblock/d46/d4664b187fd01c7b72384b0718fbec01.png",
-            "default" => false
-        ],
-        [
-            "file_name" => "https://www.teploluxe.ru/upload/iblock/666/666c8f7cc4ba901e601b25fe66f342ba.png",
-            "default" => false
+        'description' => '',
+        "barcode" => '',// Штрихкод товара. нет
+        "category_id" => '17034071', // Идентификатор категории. да
+        "name" => "Теплолюкс Carpet 50x80. Электрический коврик для сушки обуви (в коробке)", // Название товара
+        "offer_id" => "teplolyuks-carpet-50x80-elektricheskiy-kovrik-dlya-sushki-obuvi-v-korobke", // Идентификатор товара в системе продавца. Да
+        "price" => '2099.00', // Цена товара с учетом скидок, Да
+        "vat" => "0", // Ставка НДС для товара Да.
+        "height" => '0', // Высота. Да
+        "depth" => '0', // Глубина упаковки. Да
+        "width" => '0', // Ширина упаковки. Да
+        "dimension_unit" => "mm", // Единица измерения габаритов. Да
+        "weight" => '0', // Вес товара в упаковке. Да.
+        "weight_unit" => "g", // Единицы измерения веса. Да
+        "images" => [ // Картинки одна из них главная
+            "https://www.teploluxe.ru/upload/iblock/0b2/0b2ebdc35157f950905225554762e31c.png",
+            "https://www.teploluxe.ru/upload/iblock/705/70521eb2c409e4b16c5fc9f9496acbd1.jpg",
+            "https://www.teploluxe.ru/upload/iblock/f6f/f6fe7a9b4dba4c5563e72f70f3378474.png",
+            "https://www.teploluxe.ru/upload/iblock/bc3/bc36c2cc20c69833afaed620f56839e7.png",
+            "https://www.teploluxe.ru/upload/iblock/6c0/6c0aaf8901ebfee7cdf57610e9f250fc.png",
         ]
-    ],
+    ]];
 
-];
+//$task_id = $ozonSeller->productImport($data);
+echo "<pre>";
+//print_r($task_id);
+echo "</pre>";
 
- $task_id = $ozonSeller->productImport($data);
- echo $task_id;
 
 $dataInfoProduct = [
-    'offer_id'=> "item_6060091",
-    'product_id'=> 7154396,
-    'sku'=> 150583609
+    'offer_id' => "item_6060091",
+    'product_id' => 7154396,
+    'sku' => 150583609
 ];
 $dataPrices['prices'] = [
     [
-      "product_id" => 120000,
-      "offer_id"=> "PRD-1",
-      "price"=> "79990",
-      "old_price"=> "89990",
-      "premium_price"=> "75555"
+        "product_id" => 120000,
+        "offer_id" => "PRD-1",
+        "price" => "79990",
+        "old_price" => "89990",
+        "premium_price" => "75555"
     ],
     [
-      "product_id"=> 124100,
-      "offer_id"=> "PRD-2",
-      "price"=> "79990",
-      "old_price"=> "89990",
-      "premium_price"=> "75555",
+        "product_id" => 124100,
+        "offer_id" => "PRD-2",
+        "price" => "79990",
+        "old_price" => "89990",
+        "premium_price" => "75555",
     ],
     [
-      "product_id"=> 124201,
-      "offer_id"=> "PRD-3",
-      "price"=> "89990",
-      "old_price"=> "79990",
-      "premium_price"=> "75555",
+        "product_id" => 124201,
+        "offer_id" => "PRD-3",
+        "price" => "89990",
+        "old_price" => "79990",
+        "premium_price" => "75555",
     ]
-  ];
+];
 
 echo "<pre>";
 //print_r($ozonSeller->updatePriceProduct($dataPrices));
@@ -392,16 +455,84 @@ $dataStocks['stocks'] = [
 
 $dataAttr = [
     'attribute_type' => 'required',
-    'category_id' => 33633390, // теплый пол
+    'category_id' => 17034071, // теплый пол
     'language' => 'RU'
 ];
+// 17034071 Обогреватель (для тестового товара коврик)
 // 78731083
 echo "<pre>";
-//print_r($ozonSeller->getCategoryAttr($dataAttr));
+//foreach ($ozonSeller->getCategoryAttr($dataAttr) as $prop) {
+//    print_r($prop);
+//}
 echo "</pre>";
 
 echo "<pre>";
-//print_r($ozonSeller->getCategoriesTree());
+$list_category = $ozonSeller->getCategoriesTree();
+$tree = [];
+$result = [];
+function convertToSimpleArray($array){
+    $resArray[$array['category_id']] = [
+        'category_id' => $array['category_id'],
+        'title' => $array['title']
+    ];
+    if(is_array($array['children'])){
+        foreach($array['children'] as $below){
+            convertToSimpleArray($below);
+        }
+    }else{
+        $resArray[] = $array;
+    }
+    return $resArray;
+}
+foreach ($list_category as $cat) {
+    global $tree;
+    $tree = convertToSimpleArray($cat);
+}
+print_r($tree);
+
+/*foreach ($list_category as &$category) {
+    if (!$category['children']) {
+        print_r($category['children']);
+        $tree[$category['category_id']] = [
+            'name' => $category['title'],
+            'category_id' => $category['category_id']
+        ];
+    } else {
+        $tree[$category['category_id']]['title'] = $category['title'];
+        while (true) {
+            $res = getChildren($category);
+            if (key_exists('children', $res)) {
+
+            }
+            $tree[$res['category_id']] = [
+                'title' => $res['title'],
+                'parent'
+            ];
+        }
+        $list_category[$category['category_id']]['children'][$category['category_id']] = &$category;
+    }
+}*/
+$stop = false;
+//while (!$stop) {
+//    $res = getChildren($list_category);
+//    if(key_exists('children', $res)) getChildren($list_category);
+//    else $stop = true;
+//}
+
+print_r($tree);
+
+function getChildren($array)
+{
+    if ($array['children'] != []) {
+       return $array['children'];
+    } else {
+        return [
+            'category_id'  => $array['category_id'],
+            'title' => $array['title']
+        ];
+    }
+}
+
 echo "</pre>";
 
 
